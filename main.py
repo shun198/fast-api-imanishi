@@ -1,5 +1,7 @@
+from lib2to3.pytree import Base
 from typing import Optional
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -23,8 +25,20 @@ async def country(country_name: str):
 
 
 @app.get("/country/")
-async def country(country_name: str, country_no: int):
+async def country(country_name: Optional[str] = None, country_no: Optional[int] = None):
     return {
         "country_name": country_name,
         "country_no": country_no,
     }
+
+
+class Item(BaseModel):
+    name: str
+    description: Optional[str] = None
+    price: int
+    tax: Optional[float] = None
+
+
+@app.post("/items/")
+async def create_item(item: Item):
+    return {"message": f"Item {item.name}'s price is {item.price*(item.tax)}"}
