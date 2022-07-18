@@ -37,7 +37,7 @@ class ShopInfo(BaseModel):
 
 
 class Item(BaseModel):
-    name: str = Field(min_length=4, max_length=12)
+    name: str = Field(min_length=4, max_length=20)
     description: Optional[str] = None
     price: int
     tax: Optional[float] = None
